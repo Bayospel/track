@@ -5,7 +5,7 @@
 // EmailJS Configuration
 // Replace these placeholders with your actual EmailJS Account Credentials
 const EMAILJS_PUBLIC_KEY = "UZm2-QJuTUp0i98VA"; 
-const EMAILJS_SERVICE_ID = "service_cxr6koh";
+const EMAILJS_SERVICE_ID = "service_li5efya";
 const EMAILJS_TEMPLATE_ID = "template_v1gj1mj";
 
 // Initialize EmailJS
@@ -315,7 +315,14 @@ document.getElementById("send").onclick = async function () {
         sendButton.textContent = "✓ Sent Successfully";
     } catch (error) {
         console.error("Email sending error:", error);
-        alert("The complaint could not be sent. Please double check your EmailJS Public Key, Service ID, and Template ID.");
+        const status = error && error.status ? error.status : "unknown";
+        const detail = error && error.text ? error.text : (error && error.message) || "No further details returned.";
+        alert(
+            "The complaint could not be sent.\n\n" +
+            "Status: " + status + "\n" +
+            "Details: " + detail + "\n\n" +
+            "Common causes: expired Gmail connection in EmailJS, a deleted/renamed template, a domain not on the allowed origins list, or the monthly send quota being reached."
+        );
         sendButton.textContent = "✓ Send Complaint";
     }
 
